@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/models/note.dart';
-import 'package:notes_app/screens/note_detail.dart';
+import 'package:notes_app/screens/note_edit.dart';
+import 'package:notes_app/widgets/note_card.dart';
 
 class NoteListScreen extends StatefulWidget {
   const NoteListScreen({super.key});
@@ -12,30 +13,34 @@ class NoteListScreen extends StatefulWidget {
 class _NoteListScreenState extends State<NoteListScreen> {
   final List<Note> _notes = [];
 
-  Future<void> _addNote() async {
-    final newNote = await Navigator.push<Note?>(
+  Future<void> _openEditor({Note? note, int? index}) async {
+    final result = await Navigator.push<Note?>(
       context,
-      MaterialPageRoute(builder: (context) => const NoteEditScreen()),
+      MaterialPageRoute(builder: (context) => NoteEditScreen(note: note)),
     );
 
-    if (newNote != null) {
-      setState(() {
-        _notes.add(newNote);
-      });
-    }
+    if (result == null) return;
+
+    setState(() {
+      if (index != null) {
+        _notes[index] = result;
+      } else {
+        _notes.add(result);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Mis Notas')),
+      appBar: AppBar(title: const Text('Mis notas')),
       body: _notes.isEmpty
           ? Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset('assets/images/rafiki.png'),
+                  Image.asset('assets/images/rafiki.png', width: 200),
+                  const SizedBox(height: 16),
                   Text(
                     'Agrega una nota',
                     style: Theme.of(context).textTheme.titleLarge,
@@ -44,17 +49,19 @@ class _NoteListScreenState extends State<NoteListScreen> {
               ),
             )
           : ListView.builder(
+              padding: const EdgeInsets.all(16),
               itemCount: _notes.length,
               itemBuilder: (context, index) {
                 final note = _notes[index];
-                return ListTile(
-                  title: Text(note.title),
-                  subtitle: Text(note.content),
+                return NoteCard(
+                  note: note,
+                  colorIndex: index,
+                  onTap: () => _openEditor(note: note, index: index),
                 );
               },
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addNote,
+        onPressed: () => _openEditor(),
         child: const Icon(Icons.add),
       ),
     );

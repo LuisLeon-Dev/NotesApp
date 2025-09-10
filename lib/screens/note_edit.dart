@@ -2,19 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/models/note.dart';
 
 class NoteEditScreen extends StatefulWidget {
-  const NoteEditScreen({super.key});
+  final Note? note; // si viene, estamos editando
+  const NoteEditScreen({super.key, this.note});
 
   @override
   State<NoteEditScreen> createState() => _NoteEditScreenState();
 }
 
 class _NoteEditScreenState extends State<NoteEditScreen> {
-  final _titleController = TextEditingController();
-  final _contentController = TextEditingController();
+  late final TextEditingController _titleController;
+  late final TextEditingController _contentController;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: widget.note?.title ?? '');
+    _contentController = TextEditingController(
+      text: widget.note?.content ?? '',
+    );
+  }
 
   void _saveNote() {
     if (_titleController.text.isEmpty && _contentController.text.isEmpty) {
-      Navigator.pop(context);
+      Navigator.pop(context); // nada que devolver
       return;
     }
 
@@ -23,7 +33,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
       content: _contentController.text,
     );
 
-    Navigator.pop(context, newNote);
+    Navigator.pop(context, newNote); // devolvemos la nota creada/actualizada
   }
 
   @override
@@ -37,7 +47,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nueva Nota'),
+        title: Text(widget.note == null ? 'Nueva nota' : 'Editar nota'),
         actions: [
           IconButton(icon: const Icon(Icons.check), onPressed: _saveNote),
         ],
@@ -55,14 +65,13 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
                 border: InputBorder.none,
               ),
             ),
-            const SizedBox(height: 16),
-            // Contenido sin líneas
+            const SizedBox(height: 12),
             Expanded(
               child: TextField(
                 controller: _contentController,
                 style: Theme.of(context).textTheme.bodyMedium,
                 decoration: const InputDecoration(
-                  hintText: '¿Qué estas pensando?...',
+                  hintText: 'Escribe tu nota...',
                   border: InputBorder.none,
                 ),
                 maxLines: null,
