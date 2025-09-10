@@ -9,8 +9,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Take a Note',
-      theme: AppTheme.darkTheme,
-      darkTheme: AppTheme.lightTheme,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
       home: NoteListScreen(),
     );
