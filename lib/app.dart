@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/note_list.dart';
+import 'screens/note_list/note_list_screen.dart';
 import 'utils/app_theme.dart';
 
 class MyApp extends StatelessWidget {

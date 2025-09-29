@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/models/note.dart';
+import 'package:notes_app/screens/note_edit/note_edit_controller.dart';
 
 class NoteEditScreen extends StatefulWidget {
-  final Note? note; // si viene, estamos editando
+  final Note? note;
   const NoteEditScreen({super.key, this.note});
 
   @override
@@ -10,36 +11,30 @@ class NoteEditScreen extends StatefulWidget {
 }
 
 class _NoteEditScreenState extends State<NoteEditScreen> {
-  late final TextEditingController _titleController;
-  late final TextEditingController _contentController;
+  late final NoteEditController _controller;
 
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: widget.note?.title ?? '');
-    _contentController = TextEditingController(
-      text: widget.note?.content ?? '',
-    );
+    _controller = NoteEditController(note: widget.note);
   }
 
   void _saveNote() {
-    if (_titleController.text.isEmpty && _contentController.text.isEmpty) {
-      Navigator.pop(context); // nada que devolver
+    // si no hay texto, cerramos sin devolver nada
+    if (_controller.titleController.text.isEmpty &&
+        _controller.contentController.text.isEmpty) {
+      Navigator.pop(context);
       return;
     }
 
-    final newNote = Note(
-      title: _titleController.text,
-      content: _contentController.text,
-    );
-
-    Navigator.pop(context, newNote); // devolvemos la nota creada/actualizada
+    // construimos la nota manteniendo el id si existía
+    final note = _controller.buildNote(id: widget.note?.id ?? '');
+    Navigator.pop(context, note);
   }
 
   @override
   void dispose() {
-    _titleController.dispose();
-    _contentController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -58,7 +53,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
-              controller: _titleController,
+              controller: _controller.titleController,
               style: Theme.of(context).textTheme.titleLarge,
               decoration: const InputDecoration(
                 hintText: 'Título',
@@ -68,7 +63,7 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
             const SizedBox(height: 12),
             Expanded(
               child: TextField(
-                controller: _contentController,
+                controller: _controller.contentController,
                 style: Theme.of(context).textTheme.bodyMedium,
                 decoration: const InputDecoration(
                   hintText: 'Escribe tu nota...',
