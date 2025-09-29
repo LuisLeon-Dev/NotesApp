@@ -32,7 +32,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
           Note(id: note.id, title: result.title, content: result.content),
         );
       } else {
-        // nueva nota: generar id aquí
+        // nueva nota: generar id
         _controller.addNote(
           Note(id: _uuid.v4(), title: result.title, content: result.content),
         );

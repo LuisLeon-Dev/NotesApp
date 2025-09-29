@@ -20,14 +20,12 @@ class _NoteEditScreenState extends State<NoteEditScreen> {
   }
 
   void _saveNote() {
-    // si no hay texto, cerramos sin devolver nada
     if (_controller.titleController.text.isEmpty &&
         _controller.contentController.text.isEmpty) {
       Navigator.pop(context);
       return;
     }
 
-    // construimos la nota manteniendo el id si existía
     final note = _controller.buildNote(id: widget.note?.id ?? '');
     Navigator.pop(context, note);
   }

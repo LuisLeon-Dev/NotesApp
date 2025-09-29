@@ -3,7 +3,6 @@ import 'package:notes_app/models/note.dart';
 class NoteService {
   final List<Note> _notes = [];
 
-  // Exponer como lista inmodificable para evitar manipulación directa
   List<Note> get notes => List.unmodifiable(_notes);
 
   void add(Note note) {
@@ -21,7 +20,5 @@ class NoteService {
     _notes.removeWhere((n) => n.id == id);
   }
 
-  Note? getById(String id) {
-    return _notes.firstWhere((n) => n.id == id);
-  }
+  //TODO: utilizar shared preferences para manter la persistencia de datos
 }
