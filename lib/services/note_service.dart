@@ -20,5 +20,5 @@ class NoteService {
     _notes.removeWhere((n) => n.id == id);
   }
 
-  //TODO: utilizar shared preferences para manter la persistencia de datos
+  //TODO: utilizar Supabase como base de datos
 }

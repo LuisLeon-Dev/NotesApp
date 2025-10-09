@@ -83,32 +83,35 @@ class _NoteListScreenState extends State<NoteListScreen> {
                 ],
               ),
             )
-          : ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: notes.length,
-              itemBuilder: (context, index) {
-                final note = notes[index];
+          : Container(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: notes.length,
+                itemBuilder: (context, index) {
+                  final note = notes[index];
 
-                return Dismissible(
-                  key: ValueKey(note.id),
-                  direction: DismissDirection.endToStart,
-                  background: Container(
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    color: Colors.red,
-                    child: const Icon(Icons.delete, color: Colors.white),
-                  ),
-                  onDismissed: (_) {
-                    _deleteNoteWithUndo(context, note);
-                  },
-                  child: NoteCard(
-                    note: note,
-                    colorIndex: index,
-                    onTap: () => _openEditor(note: note),
-                  ),
-                );
-              },
+                  return Dismissible(
+                    key: ValueKey(note.id),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      color: Colors.red,
+                      child: const Icon(Icons.delete, color: Colors.white),
+                    ),
+                    onDismissed: (_) {
+                      _deleteNoteWithUndo(context, note);
+                    },
+                    child: NoteCard(
+                      note: note,
+                      colorIndex: index,
+                      onTap: () => _openEditor(note: note),
+                    ),
+                  );
+                },
+              ),
             ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openEditor(),
         child: const Icon(Icons.add),
