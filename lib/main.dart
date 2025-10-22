@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'app.dart';
+import 'package:notes_app/app.dart';
+import 'package:notes_app/services/supabase_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SupabaseService.initialize();
   runApp(const MyApp());
 }
