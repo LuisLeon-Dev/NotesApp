@@ -21,14 +21,16 @@ class NoteCard extends StatelessWidget {
         ? AppTheme.noteColorsLight[colorIndex % AppTheme.noteColorsLight.length]
         : AppTheme.noteColorsDark[colorIndex % AppTheme.noteColorsDark.length];
 
-    return Card(
-      color: color,
-      shape: Theme.of(context).cardTheme.shape,
-      elevation: Theme.of(context).cardTheme.elevation,
-      margin: Theme.of(context).cardTheme.margin,
-      child: InkWell(
-        onTap: onTap,
-        child: Expanded(
+    return SizedBox(
+      width: double.infinity,
+      height: 140,
+      child: Card(
+        color: color,
+        shape: Theme.of(context).cardTheme.shape,
+        elevation: Theme.of(context).cardTheme.elevation,
+        margin: Theme.of(context).cardTheme.margin,
+        child: InkWell(
+          onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
