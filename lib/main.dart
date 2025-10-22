@@ -4,6 +4,6 @@ import 'package:notes_app/services/supabase_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SupabaseService.initialize();
+  await SupabaseConfig.initialize();
   runApp(const MyApp());
 }

@@ -1,28 +1,15 @@
 class Note {
   final String id;
-  String title;
-  String content;
-  final DateTime? createdAt;
+  final String title;
+  final String content;
 
-  Note({
-    required this.id,
-    required this.title,
-    required this.content,
-    this.createdAt,
-  });
+  Note({required this.id, required this.title, required this.content});
 
-  factory Note.fromMap(Map<String, dynamic> map) {
-    return Note(
-      id: map['id'] as String,
-      title: map['title'] as String,
-      content: map['content'] as String,
-      createdAt: map['created_at'] != null
-          ? DateTime.parse(map['created_at'])
-          : null,
-    );
+  factory Note.fromJson(Map<String, dynamic> json) {
+    return Note(id: json['id'], title: json['title'], content: json['content']);
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {'id': id, 'title': title, 'content': content};
   }
 }
